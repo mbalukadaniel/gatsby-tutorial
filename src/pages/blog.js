@@ -3,14 +3,20 @@ import React from "react";
 import Layout from "../components/layout";
 
 function Blog({ data }) {
+  console.log(data);
   return (
     <div>
       <Layout pageTitle="My Blog Posts">
-        <ul>
-          {data.allFile.nodes.map((node) => (
-            <li key={node.name}>{node.name}</li>
-          ))}
-        </ul>
+        <h1>Amazing Pandas Eating this</h1>
+        <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
+        {data.allMarkdownRemark.nodes.map((node) => (
+          <div key={node.id}>
+            <h3>
+              {node.frontmatter.title} -{" "}
+              <span style={{ color: "#bbb" }}>{node.frontmatter.date}</span>
+            </h3>
+          </div>
+        ))}
       </Layout>
     </div>
   );
@@ -20,9 +26,15 @@ export default Blog;
 
 export const query = graphql`
   query {
-    allFile {
+    allMarkdownRemark {
+      totalCount
       nodes {
-        name
+        excerpt
+        frontmatter {
+          date
+          title
+        }
+        id
       }
     }
   }
